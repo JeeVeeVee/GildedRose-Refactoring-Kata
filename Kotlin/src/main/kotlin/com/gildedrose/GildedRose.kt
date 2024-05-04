@@ -9,6 +9,9 @@ class GildedRose(var items: List<Item>) {
     companion object {
         const val MAX_QUALITY = 50
         const val MIN_QUALITY = 0
+        const val SULFURAS = "Sulfuras, Hand of Ragnaros"
+        const val BRIE = "Aged Brie"
+        const val BACKSTAGE_PASSES_REGEX = "^Backstage passes.*"
     }
 
 
@@ -20,9 +23,9 @@ class GildedRose(var items: List<Item>) {
 
     private fun updateQualityForItem(item: Item) {
         when (item.name) {
-            "Aged Brie" -> brieBehaviour(item)
-            "Sulfuras, Hand of Ragnaros" -> sulfurasBehaviour(item)
-            in Regex("^Backstage passes.*") -> backstagePassesBehaviour(item)
+            BRIE -> brieBehaviour(item)
+            SULFURAS -> legendaryBehaviour(item)
+            in Regex(BACKSTAGE_PASSES_REGEX) -> backstagePassesBehaviour(item)
             else -> defaultBehaviour(item)
         }
     }
@@ -41,20 +44,20 @@ class GildedRose(var items: List<Item>) {
         item.quality = min(item.quality + 1, MAX_QUALITY)
     }
 
-    private fun sulfurasBehaviour(item: Item) {
+    private fun legendaryBehaviour(item: Item) {
         // Do nothing
     }
 
     private fun backstagePassesBehaviour(item: Item) {
         item.sellIn = max(item.sellIn - 1, MIN_QUALITY)
         if (item.sellIn == 0) {
-            item.quality = 0
+            item.quality = MIN_QUALITY
         } else if (item.sellIn <= 5) {
-            item.quality = min(item.quality + 3, 50)
+            item.quality = min(item.quality + 3, MAX_QUALITY)
         } else if (item.sellIn <= 10) {
-            item.quality = min(item.quality + 2, 50)
+            item.quality = min(item.quality + 2, MAX_QUALITY)
         } else {
-            item.quality = min(item.quality + 1, 50)
+            item.quality = min(item.quality + 1, MAX_QUALITY)
         }
     }
 }
