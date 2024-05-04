@@ -17,9 +17,7 @@ class GildedRose(var items: List<Item>) {
 
 
     fun updateQuality() {
-        for (i in items.indices) {
-            updateQualityForItem(items[i])
-        }
+        items.forEach { updateQualityForItem(it) }
     }
 
     private fun updateQualityForItem(item: Item) {
