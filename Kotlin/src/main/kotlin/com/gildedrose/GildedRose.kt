@@ -12,6 +12,7 @@ class GildedRose(var items: List<Item>) {
         const val SULFURAS = "Sulfuras, Hand of Ragnaros"
         const val BRIE = "Aged Brie"
         const val BACKSTAGE_PASSES_REGEX = "^Backstage passes.*"
+        const val CONJURED_REGEX = "^Conjured.*"
     }
 
 
@@ -25,6 +26,7 @@ class GildedRose(var items: List<Item>) {
         when (item.name) {
             BRIE -> brieBehaviour(item)
             SULFURAS -> legendaryBehaviour(item)
+            in Regex(CONJURED_REGEX) -> conjuredBehaviour(item)
             in Regex(BACKSTAGE_PASSES_REGEX) -> backstagePassesBehaviour(item)
             else -> defaultBehaviour(item)
         }
@@ -59,6 +61,11 @@ class GildedRose(var items: List<Item>) {
         } else {
             item.quality = min(item.quality + 1, MAX_QUALITY)
         }
+    }
+
+    private fun conjuredBehaviour(item: Item) {
+        item.sellIn = max(item.sellIn - 1, 0)
+        item.quality = max(item.quality - 2, MIN_QUALITY)
     }
 }
 
