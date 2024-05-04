@@ -6,15 +6,6 @@ import org.junit.jupiter.api.Test
 internal class GildedRoseTest {
 
     @Test
-    fun foo() {
-        val items = listOf(Item("foo", 0, 0))
-        val app = GildedRose(items)
-        app.updateQuality()
-        assertEquals("foo", app.items[0].name)
-    }
-
-
-    @Test
     fun `test Dexterity Vest`() {
         val items = listOf(Item("+5 Dexterity Vest", 10, 20))
         val app = GildedRose(items)
